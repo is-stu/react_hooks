@@ -11,8 +11,13 @@ export const FormWithCustomHook = () => {
 
   const { name, email, password } = formValues;
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(formValues);
+  };
+
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <h1>Form With Custom Hook</h1>
       <hr />
 
@@ -50,6 +55,9 @@ export const FormWithCustomHook = () => {
           onChange={handleInputChange}
         />
       </div>
-    </>
+      <button type='submit' className='btn btn-outline-primary'>
+        Submit
+      </button>
+    </form>
   );
 };
