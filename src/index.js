@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { LayoutEffect } from './Components/05useLayoutEffect/LayoutEffect';
+import { CallbackHook } from './Components/06-memos/CallbackHook';
 
 ReactDOM.render(
   <React.StrictMode>
-    <LayoutEffect />
+    <CallbackHook />
   </React.StrictMode>,
   document.getElementById('root')
 );
