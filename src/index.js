@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { MultipleHooks } from './Components/03Examples/MultipleHooks';
+import { LayoutEffect } from './Components/05useLayoutEffect/LayoutEffect';
 
 ReactDOM.render(
   <React.StrictMode>
-    <MultipleHooks />
+    <LayoutEffect />
   </React.StrictMode>,
   document.getElementById('root')
 );
