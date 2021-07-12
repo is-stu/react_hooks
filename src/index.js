@@ -1,10 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CallbackHook } from './Components/06-memos/CallbackHook';
+import { Padre } from './Components/07-tarea-memo/Padre';
 
 ReactDOM.render(
   <React.StrictMode>
-    <CallbackHook />
+    <Padre />
   </React.StrictMode>,
   document.getElementById('root')
 );
