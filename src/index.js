@@ -1,12 +1,10 @@
-// import React from 'react';
-// import ReactDOM from 'react-dom';
-// import { Padre } from './Components/07-tarea-memo/Padre';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { TodoApp } from './Components/08-useReducer/TodoApp';
 
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <Padre />
-//   </React.StrictMode>,
-//   document.getElementById('root')
-// );
-
-import './Components/08-useReducer/intro-reducer';
+ReactDOM.render(
+  <React.StrictMode>
+    <TodoApp />
+  </React.StrictMode>,
+  document.getElementById('root')
+);
