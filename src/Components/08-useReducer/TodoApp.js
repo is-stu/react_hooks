@@ -1,23 +1,29 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer } from 'react';
 import { todoReducer } from './todoReducer';
+import { useForm } from '../../Hooks/useForm';
+import DeleteIcon from '@material-ui/icons/Delete';
 import './TodoApp.css';
 
-const initialState = [
-  {
-    id: new Date().getTime(),
-    description: 'Learn React',
-    done: false,
-  },
-];
+const init = () => {
+  return JSON.parse(localStorage.getItem('todos')) || [];
+};
 
 export const TodoApp = () => {
-  const [todos, dispatch] = useReducer(todoReducer, initialState);
+  const [todos, dispatch] = useReducer(todoReducer, [], init);
+  const [{ description }, handleInputChange, reset] = useForm({
+    description: '',
+  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (description.trim().length <= 1) {
+      return;
+    }
+
     const newTodo = {
       id: new Date().getTime(),
-      description: 'Learn React',
+      description,
       done: false,
     };
 
@@ -27,13 +33,28 @@ export const TodoApp = () => {
     };
 
     dispatch(action);
+    reset();
   };
+
+  const handleDelete = (todoId) => {
+    console.log(todoId);
+
+    const deleteAction = {
+      type: 'delete',
+      payload: todoId,
+    };
+
+    dispatch(deleteAction);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+  }, [todos]);
 
   return (
     <div>
       <h1>Todo App ({todos.length})</h1>
       <hr />
-      {console.log(todos)}
       <div className='row'>
         <div className='col-8'>
           {todos.map((todo) => (
@@ -42,14 +63,21 @@ export const TodoApp = () => {
                 <p className='card-text'>{todo.description}</p>
               </div>
               <strong>{todo.done ? 'Done' : 'pending'}</strong>
-              <button
-                className={
-                  todo.done
-                    ? 'btn btn-outline-danger mt-3'
-                    : 'btn btn-outline-primary mt-3'
-                }>
-                {todo.done ? 'Undone' : 'Complete'}
-              </button>
+              <div className='buttons-container mt-3'>
+                <button
+                  className={
+                    todo.done
+                      ? 'btn btn-outline-danger buttoncustom'
+                      : 'btn btn-outline-primary buttoncustom'
+                  }>
+                  {todo.done ? 'Undone' : 'Complete'}
+                </button>
+                <button
+                  className='btn btn-outline-primary icon-button'
+                  onClick={() => handleDelete(todo.id)}>
+                  <DeleteIcon />
+                </button>
+              </div>
             </div>
           ))}
         </div>
@@ -61,8 +89,10 @@ export const TodoApp = () => {
               type='text'
               name='description'
               placeholder='Todo'
-              autoComplete='offf'
+              autoComplete='off'
               className='form-control'
+              value={description}
+              onChange={handleInputChange}
             />
             <div className='d-grid gap-2'>
               <button type='submit' className='btn btn-outline-primary mt-3'>
