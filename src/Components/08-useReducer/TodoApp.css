@@ -19,3 +19,7 @@ body {
 .icon-button {
   border: none;
 }
+
+.complete {
+  text-decoration: line-through;
+}

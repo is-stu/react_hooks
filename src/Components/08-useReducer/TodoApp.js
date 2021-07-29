@@ -47,6 +47,13 @@ export const TodoApp = () => {
     dispatch(deleteAction);
   };
 
+  const handleToggle = (todoId) => {
+    dispatch({
+      type: 'toggle',
+      payload: todoId,
+    });
+  };
+
   useEffect(() => {
     localStorage.setItem('todos', JSON.stringify(todos));
   }, [todos]);
@@ -60,16 +67,17 @@ export const TodoApp = () => {
           {todos.map((todo) => (
             <div key={todo.id} className='card text-center p-2 m-3'>
               <div className='card-body'>
-                <p className='card-text'>{todo.description}</p>
+                <p className={todo.done && 'complete'}>{todo.description}</p>
               </div>
-              <strong>{todo.done ? 'Done' : 'pending'}</strong>
+              <strong>{todo.done ? 'Done' : 'Pending'}</strong>
               <div className='buttons-container mt-3'>
                 <button
                   className={
                     todo.done
                       ? 'btn btn-outline-danger buttoncustom'
                       : 'btn btn-outline-primary buttoncustom'
-                  }>
+                  }
+                  onClick={() => handleToggle(todo.id)}>
                   {todo.done ? 'Undone' : 'Complete'}
                 </button>
                 <button
