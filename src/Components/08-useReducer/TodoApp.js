@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer } from 'react';
 import { todoReducer } from './todoReducer';
 import { useForm } from '../../Hooks/useForm';
-import DeleteIcon from '@material-ui/icons/Delete';
 import './TodoApp.css';
+import { TodoList } from '../TodoList/TodoList';
 
 const init = () => {
   return JSON.parse(localStorage.getItem('todos')) || [];
@@ -65,28 +65,12 @@ export const TodoApp = () => {
       <div className='row'>
         <div className='col-8'>
           {todos.map((todo) => (
-            <div key={todo.id} className='card text-center p-2 m-3'>
-              <div className='card-body'>
-                <p className={todo.done && 'complete'}>{todo.description}</p>
-              </div>
-              <strong>{todo.done ? 'Done' : 'Pending'}</strong>
-              <div className='buttons-container mt-3'>
-                <button
-                  className={
-                    todo.done
-                      ? 'btn btn-outline-danger buttoncustom'
-                      : 'btn btn-outline-primary buttoncustom'
-                  }
-                  onClick={() => handleToggle(todo.id)}>
-                  {todo.done ? 'Undone' : 'Complete'}
-                </button>
-                <button
-                  className='btn btn-outline-primary icon-button'
-                  onClick={() => handleDelete(todo.id)}>
-                  <DeleteIcon />
-                </button>
-              </div>
-            </div>
+            <TodoList
+              key={todo.id}
+              todo={todo}
+              handleToggle={handleToggle}
+              handleDelete={handleDelete}
+            />
           ))}
         </div>
 
