@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer } from 'react';
 import { todoReducer } from './todoReducer';
-import { useForm } from '../../Hooks/useForm';
 import './TodoApp.css';
-import { TodoList } from '../TodoList/TodoList';
+import { TodoList } from './TodoList/TodoList';
+import { TodoAdd } from './TodoAdd';
 
 const init = () => {
   return JSON.parse(localStorage.getItem('todos')) || [];
@@ -10,35 +10,8 @@ const init = () => {
 
 export const TodoApp = () => {
   const [todos, dispatch] = useReducer(todoReducer, [], init);
-  const [{ description }, handleInputChange, reset] = useForm({
-    description: '',
-  });
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (description.trim().length <= 1) {
-      return;
-    }
-
-    const newTodo = {
-      id: new Date().getTime(),
-      description,
-      done: false,
-    };
-
-    const action = {
-      type: 'add',
-      payload: newTodo,
-    };
-
-    dispatch(action);
-    reset();
-  };
 
   const handleDelete = (todoId) => {
-    console.log(todoId);
-
     const deleteAction = {
       type: 'delete',
       payload: todoId,
@@ -51,6 +24,13 @@ export const TodoApp = () => {
     dispatch({
       type: 'toggle',
       payload: todoId,
+    });
+  };
+
+  const handleAdd = (newTodo) => {
+    dispatch({
+      type: 'add',
+      payload: newTodo,
     });
   };
 
@@ -75,23 +55,7 @@ export const TodoApp = () => {
         </div>
 
         <div className='col'>
-          <h4>Add TODO</h4>
-          <form onSubmit={handleSubmit}>
-            <input
-              type='text'
-              name='description'
-              placeholder='Todo'
-              autoComplete='off'
-              className='form-control'
-              value={description}
-              onChange={handleInputChange}
-            />
-            <div className='d-grid gap-2'>
-              <button type='submit' className='btn btn-outline-primary mt-3'>
-                Add
-              </button>
-            </div>
-          </form>
+          <TodoAdd handleAdd={handleAdd} />
         </div>
       </div>
     </div>
